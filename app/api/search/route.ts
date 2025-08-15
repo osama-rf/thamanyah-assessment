@@ -135,7 +135,7 @@ export async function GET(request: NextRequest) {
         description: result.description || result.shortDescription,
         artworkUrl: result.artworkUrl600 || result.artworkUrl160 || result.artworkUrl100 || result.artworkUrl60 || result.artworkUrl30 || '/placeholder-podcast.png',
         trackViewUrl: result.trackViewUrl,
-        primaryGenreName: typeof result.primaryGenreName === 'string' ? result.primaryGenreName : (typeof result.primaryGenreName === 'object' && result.primaryGenreName?.name) ? result.primaryGenreName.name : (result.genres && typeof result.genres[0] === 'string') ? result.genres[0] : undefined,
+        primaryGenreName: typeof result.primaryGenreName === 'string' ? result.primaryGenreName : (result.genres && typeof result.genres[0] === 'string') ? result.genres[0] : undefined,
         releaseDate: result.releaseDate ? new Date(result.releaseDate) : undefined,
         trackTimeMillis: result.trackTimeMillis,
         episodeUrl: result.episodeUrl || result.previewUrl,

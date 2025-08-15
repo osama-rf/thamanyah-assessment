@@ -19,7 +19,7 @@ export function ToggleButtons({ isScrolled = false }: ToggleButtonsProps) {
       <button
         onClick={toggleTheme}
         className={`${buttonSize} flex items-center justify-center rounded-lg bg-muted/70 hover:bg-muted transition-all duration-300 ease-out backdrop-blur-sm`}
-        title={t('theme.switchTo', { mode: theme === 'light' ? t('theme.dark') : t('theme.light') })}
+        title={theme === 'light' ? t('theme.switchToDark') : t('theme.switchToLight')}
       >
         {theme === 'light' ? (
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

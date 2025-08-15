@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
               id: `podcast-${result.trackId}`,
               trackId: result.trackId,
               trackName: result.trackName,
-              artistName: result.artistName,
+              artistName: result.artistName || '',
               collectionName: result.collectionName,
               description: result.description,
               artworkUrl: result.artworkUrl600 || result.artworkUrl100 || result.artworkUrl60 || result.artworkUrl30 || '/placeholder-podcast.png',

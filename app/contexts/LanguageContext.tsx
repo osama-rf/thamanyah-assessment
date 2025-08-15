@@ -7,7 +7,7 @@ type Language = 'ar' | 'en';
 interface LanguageContextType {
   language: Language;
   toggleLanguage: () => void;
-  t: (key: string) => string;
+  t: (key: string, params?: Record<string, string | number>) => string;
   isRTL: boolean;
 }
 
@@ -27,8 +27,8 @@ const translations = {
     'search.clear': 'مسح البحث',
 
     // Results
-    'results.topPodcasts': ' بودكاست عن "{query}"',
-    'results.topEpisodes': ' حلقات عن "{query}"',
+    'results.topPodcasts': 'بودكاست عن "{query}"',
+    'results.topEpisodes': 'حلقات عن "{query}"',
     'results.noResults': 'ما لقينا نتائج عن "{query}"',
     'results.showing': 'نعرض لك بودكاست من iTunes',
     'results.episodes': 'حلقات',
@@ -53,7 +53,8 @@ const translations = {
     'cache.results': 'النتائج من التخزين المؤقت',
 
     // Theme
-    'theme.switchTo': 'غيّر للوضع {mode}',
+    'theme.switchToDark': 'غيّر للوضع الداكن',
+    'theme.switchToLight': 'غيّر للوضع الفاتح',
     'theme.light': 'الفاتح',
     'theme.dark': 'الداكن',
 
@@ -84,8 +85,8 @@ const translations = {
     'search.clear': 'Clear search',
 
     // Results
-    'results.topPodcasts': 'Top podcasts of "{query}"',
-    'results.topEpisodes': 'Top episodes of "{query}"',
+    'results.topPodcasts': 'Top podcasts for "{query}"',
+    'results.topEpisodes': 'Top episodes for "{query}"',
     'results.noResults': 'No results found for "{query}"',
     'results.showing': 'Showing podcasts from iTunes',
     'results.episodes': 'episodes',
@@ -110,7 +111,8 @@ const translations = {
     'cache.results': 'Results from cache',
 
     // Theme
-    'theme.switchTo': 'Switch to {mode} mode',
+    'theme.switchToDark': 'Switch to dark mode',
+    'theme.switchToLight': 'Switch to light mode',
     'theme.light': 'light',
     'theme.dark': 'dark',
 

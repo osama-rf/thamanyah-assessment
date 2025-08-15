@@ -13,7 +13,7 @@ interface LayoutToggleProps {
 export function LayoutToggle({ viewMode, onViewModeChange, className }: LayoutToggleProps) {
   const { t } = useLanguage();
   
-  const viewModes: { mode: ViewMode; icon: JSX.Element; label: string }[] = [
+  const viewModes: { mode: ViewMode; icon: React.ReactElement; label: string }[] = [
     {
       mode: 'grid',
       label: t('layout.grid'),

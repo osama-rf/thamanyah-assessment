@@ -28,7 +28,7 @@ export function ResponsiveSearchBar({
   const { t, isRTL } = useLanguage();
   const [query, setQuery] = useState(initialValue);
   const [isSearchOpen, setIsSearchOpen] = useState(true);
-  const debouncedSearchRef = useRef<ReturnType<typeof debounce>>();
+  const debouncedSearchRef = useRef<ReturnType<typeof debounce> | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   
   const defaultPlaceholder = placeholder || t('search.placeholder');
@@ -38,7 +38,7 @@ export function ResponsiveSearchBar({
     if (initialValue !== query) {
       setQuery(initialValue);
     }
-  }, [initialValue]);
+  }, [initialValue, query]);
 
   // Create debounced search function
   useEffect(() => {
