@@ -1,21 +1,22 @@
 # Thamanyah Assignment - تكليف ثمانية
 
-A clean, fast iTunes search application built with Next.js 14, TypeScript, Tailwind CSS, and Prisma. Inspired by the user-focused design philosophy of Podbay.fm.
+A clean, fast iTunes search application built with Next.js 15, TypeScript, Tailwind CSS, and Supabase. Features real-time podcast and episode search with responsive design and multi-language support.
 
 ## Features
 
-- 🎧 Search iTunes podcasts with real-time results
-- 📱 Responsive design with grid and list views
-- ⚡ Fast search with caching using PostgreSQL
-- 🎨 Clean, minimal UI inspired by Podbay.fm
-- 🔍 Advanced search filtering and sorting
-- 📊 Store search history and results
+- 🎧 Search iTunes podcasts and episodes with instant results
+- 📱 Fully responsive design that works on all devices
+- ⚡ Fast search with debounced input and caching using Supabase
+- 🎨 Clean, modern UI with dark/light theme support
+- 🌍 Multi-language support (Arabic/English) with RTL support
+- 🔍 Grid and list view options for search results
+- 📊 Popular podcasts section and search history
 
 ## Tech Stack
 
-- **Frontend**: Next.js 14 (App Router), React, TypeScript
+- **Frontend**: Next.js 15 (App Router), React 19, TypeScript
 - **Styling**: Tailwind CSS with custom design system
-- **Database**: PostgreSQL with Prisma ORM
+- **Database**: Supabase (PostgreSQL)
 - **API**: Next.js API Routes
 - **External API**: iTunes Search API
 
@@ -23,24 +24,31 @@ A clean, fast iTunes search application built with Next.js 14, TypeScript, Tailw
 
 1. **Clone and install dependencies:**
    ```bash
+   git clone https://github.com/YOUR_USERNAME/thamanyah-assessment.git
    cd thamanyah-assessment
    npm install
    ```
 
-2. **Set up your database:**
-   ```bash
-   # Update .env.local with your PostgreSQL connection string
-   # Then run Prisma migrations
-   npx prisma generate
-   npx prisma db push
+2. **Set up Supabase:**
+   - Create a new project at [supabase.com](https://supabase.com)
+   - Copy your project URL and anon key
+   - Run the SQL migrations in your Supabase SQL editor:
+     - `supabase-migration.sql` (for podcasts table)
+     - `episodes-migration.sql` (for episodes table)
+
+3. **Configure environment variables:**
+   Create a `.env.local` file with your Supabase credentials:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
    ```
 
-3. **Run the development server:**
+4. **Run the development server:**
    ```bash
    npm run dev
    ```
 
-4. **Open your browser:**
+5. **Open your browser:**
    Navigate to [http://localhost:3000](http://localhost:3000)
 
 ## Environment Variables
@@ -48,10 +56,8 @@ A clean, fast iTunes search application built with Next.js 14, TypeScript, Tailw
 Create a `.env.local` file with:
 
 ```env
-DATABASE_URL="postgresql://username:password@localhost:5432/itunes_search_db?schema=public"
-NEXTAUTH_URL="http://localhost:3000"
-NEXTAUTH_SECRET="your-secret-key-here"
-ITUNES_API_BASE_URL="https://itunes.apple.com/search"
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
 ## Project Structure
@@ -59,16 +65,28 @@ ITUNES_API_BASE_URL="https://itunes.apple.com/search"
 ```
 thamanyah-assessment/
 ├── app/
-│   ├── api/search/          # Search API routes
+│   ├── api/
+│   │   ├── search/          # Podcast search API route
+│   │   └── popular/         # Popular podcasts API route
 │   ├── components/          # React components
-│   ├── lib/                # Utility functions and services
+│   │   ├── EpisodeGrid.tsx  # Episode display components
+│   │   ├── PodcastCard.tsx  # Podcast card component
+│   │   ├── SearchBar.tsx    # Search functionality
+│   │   └── ...              # Other UI components
+│   ├── contexts/            # React contexts
+│   │   ├── LanguageContext.tsx  # Language/i18n context
+│   │   └── ThemeContext.tsx     # Dark/light theme context
+│   ├── lib/                 # Utility functions and services
+│   │   ├── supabase.ts      # Supabase client configuration
+│   │   ├── itunes-api.ts    # iTunes API service
+│   │   └── utils.ts         # Utility functions
 │   ├── types/              # TypeScript type definitions
-│   ├── globals.css         # Global styles
-│   ├── layout.tsx          # Root layout
+│   ├── globals.css         # Global styles and CSS variables
+│   ├── layout.tsx          # Root layout with providers
 │   └── page.tsx            # Home page
-├── prisma/
-│   └── schema.prisma       # Database schema
-├── public/                 # Static assets
+├── public/                 # Static assets (logos, icons)
+├── supabase-migration.sql  # Database schema for podcasts
+├── episodes-migration.sql  # Database schema for episodes
 └── ...config files
 ```
 
@@ -76,18 +94,37 @@ thamanyah-assessment/
 
 ### Search Podcasts
 ```
-GET /api/search?term=query&media=podcast&limit=20
+GET /api/search?term=query&media=podcast&limit=50
 ```
 
-Returns paginated search results with caching for improved performance.
+### Popular Podcasts
+```
+GET /api/popular
+```
 
-## Design Philosophy
+Both endpoints return cached results for improved performance and include Supabase integration.
 
-This application follows Podbay.fm's design principles:
-- **Clean & Minimal**: No clutter or unnecessary elements
-- **User-Focused**: Prioritizes user experience over flashy features
-- **Fast & Lightweight**: Optimized for speed and performance
-- **Intuitive**: Easy navigation and interactions
+## Key Features Explained
+
+### Multi-Language Support
+- Supports Arabic and English with automatic RTL layout
+- Language context provides translations throughout the app
+- Seamless language switching with persistent user preference
+
+### Theme Support
+- Dark and light theme modes with system preference detection
+- CSS custom properties for consistent theming
+- Smooth transitions between theme changes
+
+### Search Functionality
+- Debounced search input to reduce API calls
+- Real-time search results as you type
+- Search history and popular podcasts caching in Supabase
+
+### Responsive Design
+- Mobile-first approach with Tailwind CSS
+- Grid and list view toggles for different screen sizes
+- Optimized navigation and search bar for mobile devices
 
 ## Development
 
@@ -98,17 +135,11 @@ npm run dev
 # Build for production
 npm run build
 
-# Start production server
+# Start production server  
 npm start
 
 # Run linting
 npm run lint
-
-# Generate Prisma client
-npx prisma generate
-
-# Push database schema
-npx prisma db push
 ```
 
 ## Contributing
