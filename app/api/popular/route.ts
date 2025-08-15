@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
     // List of popular Arabic podcast search terms to get diverse results
     const arabicPodcastTerms = [
       'ثمانية',
-      'فنجان', 
+      'بودكاست فنجان',
       'تبن',
       'بودكاست عربي',
       'أبجورة',
@@ -49,7 +49,7 @@ export async function GET(request: NextRequest) {
         for (const result of searchResults.results) {
           if (!seenTrackIds.has(result.trackId)) {
             seenTrackIds.add(result.trackId);
-            
+
             allResults.push({
               id: `podcast-${result.trackId}`,
               trackId: result.trackId,
@@ -85,7 +85,7 @@ export async function GET(request: NextRequest) {
 
   } catch (error) {
     console.error('Popular podcasts API error:', error);
-    
+
     if (error instanceof Error) {
       return NextResponse.json<ApiResponse<null>>(
         {

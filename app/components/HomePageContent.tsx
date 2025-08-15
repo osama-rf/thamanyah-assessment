@@ -17,7 +17,7 @@ export function HomePageContent() {
   const { t } = useLanguage();
   const router = useRouter();
   const searchParams = useSearchParams();
-  
+
   const [searchState, setSearchState] = useState<SearchState>({
     query: '',
     results: [],
@@ -27,17 +27,17 @@ export function HomePageContent() {
     error: null,
     hasSearched: false,
   });
-  
+
   const [episodePage, setEpisodePage] = useState(1);
   const [isLoadingMoreEpisodes, setIsLoadingMoreEpisodes] = useState(false);
   const [hasMoreEpisodes, setHasMoreEpisodes] = useState(true);
   const EPISODES_PER_PAGE = 8;
-  
+
   const [popularPodcasts, setPopularPodcasts] = useState<PodcastCard[]>([]);
   const [isLoadingPopular, setIsLoadingPopular] = useState(false);
-  
+
   const [podcastViewMode, setPodcastViewMode] = useState<ViewMode>('horizontal');
-  const [episodeViewMode, setEpisodeViewMode] = useState<ViewMode>('grid');
+  const [episodeViewMode, setEpisodeViewMode] = useState<ViewMode>('compact');
   const currentRequestRef = useRef<AbortController | null>(null);
   const lastQueryRef = useRef<string>('');
 
@@ -46,12 +46,12 @@ export function HomePageContent() {
     if (query.trim() === lastQueryRef.current && !searchState.error) {
       return;
     }
-    
+
     // Cancel previous request if still pending
     if (currentRequestRef.current) {
       currentRequestRef.current.abort();
     }
-    
+
     // Create new abort controller for this request
     currentRequestRef.current = new AbortController();
 
@@ -67,7 +67,7 @@ export function HomePageContent() {
 
     try {
       lastQueryRef.current = query.trim();
-      
+
       // Update URL with search query (unless skipping)
       if (!skipUrlUpdate) {
         const params = new URLSearchParams(searchParams);
@@ -78,11 +78,11 @@ export function HomePageContent() {
         }
         router.replace(`/?${params.toString()}`, { scroll: false });
       }
-      
+
       // Reset episode pagination for new search
       setEpisodePage(1);
       setHasMoreEpisodes(true);
-      
+
       // Search for both podcasts and episodes in parallel
       const [podcastResponse, episodeResponse] = await Promise.all([
         fetch(
@@ -94,7 +94,7 @@ export function HomePageContent() {
           { signal: currentRequestRef.current.signal }
         )
       ]);
-      
+
       const [podcastData, episodeData] = await Promise.all([
         podcastResponse.json(),
         episodeResponse.json()
@@ -107,7 +107,7 @@ export function HomePageContent() {
       const newEpisodes = episodeData.success ? (episodeData.data || []) : [];
       // Always show load more button if we got any episodes, unless we got fewer than expected
       setHasMoreEpisodes(newEpisodes.length >= EPISODES_PER_PAGE);
-      
+
       setSearchState(prev => ({
         ...prev,
         results: podcastData.success ? (podcastData.data || []) : [],
@@ -122,7 +122,7 @@ export function HomePageContent() {
       if (error instanceof Error && error.name === 'AbortError') {
         return;
       }
-      
+
       console.error('Search error:', error);
       setSearchState(prev => ({
         ...prev,
@@ -144,19 +144,19 @@ export function HomePageContent() {
       const response = await fetch(
         `/api/search?term=${encodeURIComponent(searchState.query.trim())}&media=podcastEpisode&limit=${nextPage * EPISODES_PER_PAGE}`
       );
-      
+
       const data = await response.json();
-      
+
       if (data.success && data.data) {
         const newEpisodes = data.data;
         // If we got fewer episodes than expected, there are no more
         const hasMore = newEpisodes.length >= nextPage * EPISODES_PER_PAGE;
-        
+
         setSearchState(prev => ({
           ...prev,
           episodes: newEpisodes,
         }));
-        
+
         setEpisodePage(nextPage);
         setHasMoreEpisodes(hasMore);
       }
@@ -205,7 +205,7 @@ export function HomePageContent() {
     try {
       const response = await fetch('/api/popular?limit=20');
       const data = await response.json();
-      
+
       if (data.success && data.data) {
         setPopularPodcasts(data.data);
       }
@@ -221,18 +221,18 @@ export function HomePageContent() {
     loadPopularPodcasts();
   }, [loadPopularPodcasts]);
 
-  // Search for "فنجان" by default when component mounts
+  // Search for "بودكاست فنجان" by default when component mounts
   useEffect(() => {
     // Only do default search if no URL parameters and no search has been performed
     if (!searchParams.get('q') && !searchState.hasSearched) {
-      handleSearch('فنجان');
+      handleSearch('بودكاست فنجان');
     }
   }, [handleSearch, searchParams, searchState.hasSearched]);
 
   return (
     <main className="flex-1">
       {/* Header Section */}
-      <Header 
+      <Header
         onSearch={handleSearch}
         isLoadingPodcasts={searchState.isLoadingPodcasts}
         isLoadingEpisodes={searchState.isLoadingEpisodes}
@@ -247,7 +247,7 @@ export function HomePageContent() {
           <div className="mb-6 flex items-center justify-between">
             <div>
               <h2 className="heading-md">
-                {searchState.results.length > 0 
+                {searchState.results.length > 0
                   ? t('results.topPodcasts', { query: searchState.query })
                   : t('results.noResults', { query: searchState.query })
                 }
@@ -258,7 +258,7 @@ export function HomePageContent() {
                 </p>
               )}
             </div>
-            
+
             {searchState.results.length > 0 && (
               <LayoutToggle
                 viewMode={podcastViewMode}
@@ -313,7 +313,7 @@ export function HomePageContent() {
                 {t('results.showing')}
               </p>
             </div>
-            
+
             <EpisodeLayoutToggle
               viewMode={episodeViewMode}
               onViewModeChange={handleEpisodeViewModeChange}
@@ -342,7 +342,7 @@ export function HomePageContent() {
               episodes={searchState.episodes}
               viewMode={episodeViewMode}
             />
-            
+
             {/* Load More Episodes Button */}
             {hasMoreEpisodes && (
               <div className="flex justify-center mt-8">
@@ -355,7 +355,7 @@ export function HomePageContent() {
                 </button>
               </div>
             )}
-            
+
             {!hasMoreEpisodes && searchState.episodes.length >= EPISODES_PER_PAGE && (
               <div className="text-center mt-8">
                 <p className="text-sm text-muted-foreground">{t('pagination.noMore')}</p>
@@ -392,7 +392,7 @@ export function HomePageContent() {
                   {t('popular.subtitle')}
                 </p>
               </div>
-              
+
               {popularPodcasts.length > 0 && (
                 <LayoutToggle
                   viewMode={podcastViewMode}

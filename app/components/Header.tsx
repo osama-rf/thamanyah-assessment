@@ -35,7 +35,7 @@ export function Header({ onSearch, isLoadingPodcasts, isLoadingEpisodes, searchQ
     <>
       {/* Fixed header at top */}
       <nav className="fixed top-0 left-0 right-0 z-40 bg-background/95 backdrop-blur-md border-b border-border shadow-lg">
-        <div className="max-w-6xl mx-auto px-2 py-2 sm:px-4 sm:py-3 lg:px-8">
+        <div className="max-w-6xl mx-auto px-4 py-2 sm:px-6 sm:py-3 lg:px-8">
           <div className="flex items-center justify-between gap-2 sm:gap-4" dir="ltr">
             {/* Toggle buttons - always visible */}
             <div className="flex-shrink-0">
