@@ -14,10 +14,13 @@ const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
 });
 
 export const metadata: Metadata = {
-  title: 'iTunes Search - Find Your Favorite Podcasts',
+  title: 'Thamanyah Assignment - تكليف ثمانية',
   description: 'Search and discover podcasts, music, and more from iTunes with our clean.',
   keywords: 'iTunes, podcasts, search, music, entertainment',
-  authors: [{ name: 'iTunes Search App' }],
+  authors: [{ name: 'Thamanyah Assignment - تكليف ثمانية' }],
+  icons: {
+    icon: '/Thmanyah-Icon-tab.svg',
+  },
 };
 
 export const viewport = {

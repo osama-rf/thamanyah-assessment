@@ -1,4 +1,4 @@
-# iTunes Search App
+# Thamanyah Assignment - تكليف ثمانية
 
 A clean, fast iTunes search application built with Next.js 14, TypeScript, Tailwind CSS, and Prisma. Inspired by the user-focused design philosophy of Podbay.fm.
 
@@ -23,7 +23,7 @@ A clean, fast iTunes search application built with Next.js 14, TypeScript, Tailw
 
 1. **Clone and install dependencies:**
    ```bash
-   cd itunes-search-app
+   cd thamanyah-assessment
    npm install
    ```
 
@@ -57,7 +57,7 @@ ITUNES_API_BASE_URL="https://itunes.apple.com/search"
 ## Project Structure
 
 ```
-itunes-search-app/
+thamanyah-assessment/
 ├── app/
 │   ├── api/search/          # Search API routes
 │   ├── components/          # React components

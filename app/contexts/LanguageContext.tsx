@@ -64,9 +64,9 @@ const translations = {
     'layout.compact': 'مضغوط',
 
     // Footer
-    'footer.builtBy': 'صُنع بكل حب من أسامة الرفاعي لتكليف من',
+    'footer.builtBy': 'صُنع بكل حب من أسامة الرفاعي لتكليف',
     'footer.thamanyah': 'ثمانية',
-    
+
     // Language
     'language.switchTo': 'Switch to English',
     'language.ar': 'العربية',
@@ -124,7 +124,7 @@ const translations = {
     'footer.builtBy': 'Built with love by Osama Alrefay for',
     'footer.thamanyah': 'Thamanyah',
     'footer.assignment': 'Assignment',
-    
+
     // Language
     'language.switchTo': 'التبديل إلى العربية',
     'language.ar': 'العربية',

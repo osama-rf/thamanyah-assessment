@@ -27,7 +27,7 @@ export function ResponsiveSearchBar({
 }: ResponsiveSearchBarProps) {
   const { t, isRTL } = useLanguage();
   const [query, setQuery] = useState(initialValue);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(true);
   const debouncedSearchRef = useRef<ReturnType<typeof debounce>>();
   const inputRef = useRef<HTMLInputElement>(null);
   
@@ -71,9 +71,7 @@ export function ResponsiveSearchBar({
     e.preventDefault();
     if (query.trim() && !isLoading) {
       onSearch(query.trim());
-      if (isCompact) {
-        setIsSearchOpen(false);
-      }
+      // Don't close search bar on submit - only close with X button
     }
   };
 
@@ -94,35 +92,11 @@ export function ResponsiveSearchBar({
     setIsSearchOpen(true);
   };
 
+  // X button now only clears input, doesn't close search bar
   const handleClose = () => {
-    setIsSearchOpen(false);
     setQuery('');
   };
 
-  // Mobile search icon only (when compact and search is closed)
-  if (isCompact && !isSearchOpen) {
-    return (
-      <button
-        onClick={handleSearchIconClick}
-        className="p-2 rounded-lg bg-transparent hover:bg-muted/20 transition-all duration-300 ease-out"
-        aria-label={t('search.placeholder')}
-      >
-        <svg
-          className="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-          />
-        </svg>
-      </button>
-    );
-  }
 
   // Full search bar (desktop or mobile when open)
   return (
@@ -139,11 +113,11 @@ export function ResponsiveSearchBar({
           disabled={isLoading}
           className={cn(
             "clean-input",
-            isCompact ? "h-12 text-base" : "h-14 text-lg",
-            isRTL ? "pr-6 pl-32" : "pl-6 pr-32",
+            isCompact ? "h-10 text-sm sm:h-12 sm:text-base" : "h-14 text-lg",
+            isRTL ? "pr-3 pl-12 sm:pr-6 sm:pl-16" : "pl-3 pr-12 sm:pl-6 sm:pr-16",
             "focus:ring-2 focus:ring-primary focus:border-transparent",
             "disabled:opacity-50 disabled:cursor-not-allowed",
-            "shadow-sm w-full"
+            "shadow-sm w-full min-w-0"
           )}
         />
 
@@ -151,73 +125,24 @@ export function ResponsiveSearchBar({
           "absolute inset-y-0 flex items-center gap-1",
           isRTL ? "left-0" : "right-0"
         )}>
-          {/* Close button for mobile search */}
-          {isCompact && isSearchOpen && (
+          {/* Clear button (X) - only clears input text */}
+          {query && !isLoading && (
             <button
               type="button"
               onClick={handleClose}
               className={cn(
-                "p-2 hover:opacity-70 transition-opacity duration-300 ease-out",
-                isRTL ? "ml-2" : "mr-2"
-              )}
-              aria-label="Close search"
-            >
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: 'var(--foreground)' }}>
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          )}
-
-          {/* Clear button */}
-          {query && !isLoading && (!isCompact || !isSearchOpen) && (
-            <button
-              type="button"
-              onClick={handleClear}
-              className={cn(
-                "p-2 hover:opacity-70 transition-opacity duration-300 ease-out",
-                isRTL ? "ml-2" : "mr-2"
+                "p-1 sm:p-2 hover:opacity-70 transition-opacity duration-300 ease-out",
+                isRTL ? "ml-1 sm:ml-2" : "mr-1 sm:mr-2"
               )}
               aria-label={t('search.clear')}
             >
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: 'var(--foreground)' }}>
+              <svg className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: 'var(--foreground)' }}>
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           )}
 
-          {/* Search button */}
-          <button
-            type="submit"
-            disabled={!query.trim() || isLoading}
-            className={cn(
-              isCompact ? "h-8 px-4 text-sm" : "h-10 px-6",
-              isRTL ? "ml-3" : "mr-3",
-              "bg-transparent border-none",
-              "hover:opacity-70",
-              "disabled:opacity-30 disabled:cursor-not-allowed",
-              "transition-opacity duration-300 ease-out",
-              "font-medium rounded-md"
-            )}
-            style={{ color: 'var(--foreground)' }}
-          >
-            {isLoading ? (
-              <div className="flex items-center">
-                <svg className="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" style={{ color: 'var(--foreground)' }}>
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                {isCompact ? '' : t('search.searching')}
-              </div>
-            ) : (
-              isCompact ? (
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: 'var(--foreground)' }}>
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              ) : (
-                t('search.button')
-              )
-            )}
-          </button>
+
         </div>
       </div>
     </form>

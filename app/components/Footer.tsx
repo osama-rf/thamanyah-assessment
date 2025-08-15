@@ -24,7 +24,7 @@ export function Footer() {
                   >
                     أسامة الرفاعي
                   </a>
-                  {' '}لتكليف من
+                  {' '}لتكليف
                 </div>
                 <a
                   href="https://thmanyah.com/"
