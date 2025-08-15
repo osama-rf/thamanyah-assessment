@@ -83,10 +83,11 @@ export function SearchBar({
           onChange={handleInputChange}
           placeholder={defaultPlaceholder}
           disabled={isLoading}
+          dir={isRTL ? "rtl" : "ltr"}
           className={cn(
             "clean-input",
             "h-14 text-lg",
-            isRTL ? "pr-6 pl-16" : "pl-6 pr-16",
+            isRTL ? "pr-6 pl-16 text-right" : "pl-6 pr-16 text-left",
             "focus:ring-2 focus:ring-primary focus:border-transparent",
             "disabled:opacity-50 disabled:cursor-not-allowed",
             "shadow-sm"

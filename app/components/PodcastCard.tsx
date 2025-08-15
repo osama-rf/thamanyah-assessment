@@ -82,12 +82,12 @@ export function PodcastCard({ podcast, viewMode, className }: PodcastCardProps) 
             <div className="mt-auto">
               <div className="flex items-center justify-between text-xs text-muted-foreground">
                 {primaryGenreName && (
-                  <span className="px-2 py-1 bg-muted rounded-full text-xs truncate max-w-20">
-                    {primaryGenreName}
+                  <span className="px-2 py-1 bg-muted rounded-full text-xs">
+                    {t(`genre.${primaryGenreName}`) !== `genre.${primaryGenreName}` ? t(`genre.${primaryGenreName}`) : primaryGenreName}
                   </span>
                 )}
                 {trackCount && (
-                  <span className="text-xs">{trackCount}</span>
+                  <span className="text-xs">{trackCount} {trackCount === 1 ? t('results.episode') : t('results.episodes')}</span>
                 )}
               </div>
             </div>
@@ -139,7 +139,7 @@ export function PodcastCard({ podcast, viewMode, className }: PodcastCardProps) 
             <div className="flex items-center space-x-4 text-xs text-muted-foreground">
               {primaryGenreName && (
                 <span className="px-2 py-1 bg-muted rounded-full">
-                  {primaryGenreName}
+                  {t(`genre.${primaryGenreName}`) !== `genre.${primaryGenreName}` ? t(`genre.${primaryGenreName}`) : primaryGenreName}
                 </span>
               )}
               {trackCount && (
@@ -214,8 +214,8 @@ export function PodcastCard({ podcast, viewMode, className }: PodcastCardProps) 
           <div className="mt-auto">
             <div className="flex items-center justify-between text-xs text-muted-foreground">
               {primaryGenreName && (
-                <span className="px-2 py-1 bg-muted rounded-full truncate max-w-24">
-                  {primaryGenreName}
+                <span className="px-2 py-1 bg-muted rounded-full">
+                  {t(`genre.${primaryGenreName}`) !== `genre.${primaryGenreName}` ? t(`genre.${primaryGenreName}`) : primaryGenreName}
                 </span>
               )}
               {trackCount && (

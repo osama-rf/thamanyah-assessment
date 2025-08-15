@@ -13,6 +13,7 @@ interface ResponsiveSearchBarProps {
   initialValue?: string;
   isCompact?: boolean;
   onSearchStateChange?: (isOpen: boolean) => void;
+  onClear?: () => void;
 }
 
 export function ResponsiveSearchBar({
@@ -23,22 +24,25 @@ export function ResponsiveSearchBar({
   enableInstantSearch = true,
   initialValue = '',
   isCompact = false,
-  onSearchStateChange
+  onSearchStateChange,
+  onClear
 }: ResponsiveSearchBarProps) {
   const { t, isRTL } = useLanguage();
   const [query, setQuery] = useState(initialValue);
   const [isSearchOpen, setIsSearchOpen] = useState(true);
   const debouncedSearchRef = useRef<ReturnType<typeof debounce> | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const prevInitialValue = useRef(initialValue);
   
   const defaultPlaceholder = placeholder || t('search.placeholder');
 
-  // Update query when initialValue changes
+  // Only update query when initialValue changes externally (not from user typing)
   useEffect(() => {
-    if (initialValue !== query) {
+    if (initialValue !== prevInitialValue.current) {
       setQuery(initialValue);
+      prevInitialValue.current = initialValue;
     }
-  }, [initialValue, query]);
+  }, [initialValue]);
 
   // Create debounced search function
   useEffect(() => {
@@ -92,9 +96,12 @@ export function ResponsiveSearchBar({
     setIsSearchOpen(true);
   };
 
-  // X button now only clears input, doesn't close search bar
+  // X button clears input and calls onClear if provided
   const handleClose = () => {
     setQuery('');
+    if (onClear) {
+      onClear();
+    }
   };
 
 
@@ -111,10 +118,11 @@ export function ResponsiveSearchBar({
           onChange={handleInputChange}
           placeholder={defaultPlaceholder}
           disabled={isLoading}
+          dir={isRTL ? "rtl" : "ltr"}
           className={cn(
             "clean-input",
             isCompact ? "h-10 text-sm sm:h-12 sm:text-base" : "h-14 text-lg",
-            isRTL ? "pr-3 pl-12 sm:pr-6 sm:pl-16" : "pl-3 pr-12 sm:pl-6 sm:pr-16",
+            isRTL ? "pr-3 pl-12 sm:pr-6 sm:pl-16 text-right" : "pl-3 pr-12 sm:pl-6 sm:pr-16 text-left",
             "focus:ring-2 focus:ring-primary focus:border-transparent",
             "disabled:opacity-50 disabled:cursor-not-allowed",
             "shadow-sm w-full min-w-0"

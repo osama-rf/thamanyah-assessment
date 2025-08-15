@@ -10,21 +10,19 @@ export function Footer() {
     <footer className="bg-background border-t border-border mt-auto">
       <div className="max-w-6xl mx-auto px-4 pt-8 pb-16 sm:px-6 lg:px-8">
         <div className="flex items-center justify-center">
-          <div className="flex items-center gap-2 flex-wrap justify-center">
+          <div className="flex items-center gap-1 flex-wrap justify-center">
             {language === 'ar' ? (
               // Arabic RTL layout: text first, then icon
               <>
-                <div className="text-lg sm:text-xl text-muted-foreground">
-                  صُنع بكل حب من{' '}
+                <div className="text-sm sm:text-base md:text-lg text-muted-foreground">
+                  {t('footer.builtBy')}{' '}
                   <a
                     href="https://osama-rf.vercel.app"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-bold text-foreground hover:opacity-80 transition-opacity border-b-2 border-primary pb-1"
                   >
-                    أسامة الرفاعي
                   </a>
-                  {' '}لتكليف
                 </div>
                 <a
                   href="https://thmanyah.com/"
@@ -33,26 +31,24 @@ export function Footer() {
                   className="inline-flex items-center hover:opacity-80 transition-opacity"
                 >
                   <ThamanyahIcon
-                    width={100}
-                    height={100}
-                    className="text-muted-foreground"
+                    width={80}
+                    height={80}
+                    className="text-muted-foreground sm:w-[90px] sm:h-[90px] md:w-[100px] md:h-[100px]"
                   />
                 </a>
               </>
             ) : (
               // English LTR layout: text, icon, then "Assignment"
               <>
-                <div className="text-lg sm:text-xl text-muted-foreground">
-                  Built with love by{' '}
+                <div className="text-sm sm:text-base md:text-lg text-muted-foreground">
+                  {t('footer.builtBy')}{' '}
                   <a
                     href="https://osama-rf.vercel.app"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-bold text-foreground hover:opacity-80 transition-opacity border-b-2 border-primary pb-1"
                   >
-                    Osama Alrefay
                   </a>
-                  {' '}for
                 </div>
                 <a
                   href="https://thmanyah.com/"
@@ -61,14 +57,11 @@ export function Footer() {
                   className="inline-flex items-center hover:opacity-80 transition-opacity"
                 >
                   <ThamanyahIcon
-                    width={100}
-                    height={100}
-                    className="text-muted-foreground"
+                    width={80}
+                    height={80}
+                    className="text-muted-foreground sm:w-[90px] sm:h-[90px] md:w-[100px] md:h-[100px]"
                   />
                 </a>
-                <p className="text-lg sm:text-xl text-muted-foreground">
-                  {t('footer.assignment')}
-                </p>
               </>
             )}
           </div>

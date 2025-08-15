@@ -28,6 +28,11 @@ export function HomePageContent() {
     hasSearched: false,
   });
   
+  const [episodePage, setEpisodePage] = useState(1);
+  const [isLoadingMoreEpisodes, setIsLoadingMoreEpisodes] = useState(false);
+  const [hasMoreEpisodes, setHasMoreEpisodes] = useState(true);
+  const EPISODES_PER_PAGE = 8;
+  
   const [popularPodcasts, setPopularPodcasts] = useState<PodcastCard[]>([]);
   const [isLoadingPopular, setIsLoadingPopular] = useState(false);
   
@@ -74,6 +79,10 @@ export function HomePageContent() {
         router.replace(`/?${params.toString()}`, { scroll: false });
       }
       
+      // Reset episode pagination for new search
+      setEpisodePage(1);
+      setHasMoreEpisodes(true);
+      
       // Search for both podcasts and episodes in parallel
       const [podcastResponse, episodeResponse] = await Promise.all([
         fetch(
@@ -81,7 +90,7 @@ export function HomePageContent() {
           { signal: currentRequestRef.current.signal }
         ),
         fetch(
-          `/api/search?term=${encodeURIComponent(query.trim())}&media=podcastEpisode&limit=20`,
+          `/api/search?term=${encodeURIComponent(query.trim())}&media=podcastEpisode&limit=${EPISODES_PER_PAGE}`,
           { signal: currentRequestRef.current.signal }
         )
       ]);
@@ -95,10 +104,14 @@ export function HomePageContent() {
         throw new Error('Search failed');
       }
 
+      const newEpisodes = episodeData.success ? (episodeData.data || []) : [];
+      // Always show load more button if we got any episodes, unless we got fewer than expected
+      setHasMoreEpisodes(newEpisodes.length >= EPISODES_PER_PAGE);
+      
       setSearchState(prev => ({
         ...prev,
         results: podcastData.success ? (podcastData.data || []) : [],
-        episodes: episodeData.success ? (episodeData.data || []) : [],
+        episodes: newEpisodes,
         isLoadingPodcasts: false,
         isLoadingEpisodes: false,
         hasSearched: true,
@@ -121,6 +134,51 @@ export function HomePageContent() {
       currentRequestRef.current = null;
     }
   }, [searchState.error, searchParams, router]);
+
+  const loadMoreEpisodes = useCallback(async () => {
+    if (!searchState.query.trim() || isLoadingMoreEpisodes || !hasMoreEpisodes) return;
+
+    setIsLoadingMoreEpisodes(true);
+    try {
+      const nextPage = episodePage + 1;
+      const response = await fetch(
+        `/api/search?term=${encodeURIComponent(searchState.query.trim())}&media=podcastEpisode&limit=${nextPage * EPISODES_PER_PAGE}`
+      );
+      
+      const data = await response.json();
+      
+      if (data.success && data.data) {
+        const newEpisodes = data.data;
+        // If we got fewer episodes than expected, there are no more
+        const hasMore = newEpisodes.length >= nextPage * EPISODES_PER_PAGE;
+        
+        setSearchState(prev => ({
+          ...prev,
+          episodes: newEpisodes,
+        }));
+        
+        setEpisodePage(nextPage);
+        setHasMoreEpisodes(hasMore);
+      }
+    } catch (error) {
+      console.error('Error loading more episodes:', error);
+    } finally {
+      setIsLoadingMoreEpisodes(false);
+    }
+  }, [searchState.query, episodePage, isLoadingMoreEpisodes, hasMoreEpisodes, EPISODES_PER_PAGE]);
+
+  const handleClear = useCallback(() => {
+    setSearchState(prev => ({
+      ...prev,
+      query: '',
+      results: [],
+      episodes: [],
+      hasSearched: false,
+      error: null,
+    }));
+    setEpisodePage(1);
+    setHasMoreEpisodes(true);
+  }, []);
 
   // Handle URL search parameters on mount
   useEffect(() => {
@@ -179,6 +237,7 @@ export function HomePageContent() {
         isLoadingPodcasts={searchState.isLoadingPodcasts}
         isLoadingEpisodes={searchState.isLoadingEpisodes}
         searchQuery={searchState.query}
+        onClear={handleClear}
       />
 
       {/* Results Section */}
@@ -278,10 +337,31 @@ export function HomePageContent() {
 
         {/* Episodes Results Grid */}
         {!searchState.isLoadingEpisodes && !searchState.error && searchState.episodes.length > 0 && (
-          <EpisodeGrid
-            episodes={searchState.episodes}
-            viewMode={episodeViewMode}
-          />
+          <>
+            <EpisodeGrid
+              episodes={searchState.episodes}
+              viewMode={episodeViewMode}
+            />
+            
+            {/* Load More Episodes Button */}
+            {hasMoreEpisodes && (
+              <div className="flex justify-center mt-8">
+                <button
+                  onClick={loadMoreEpisodes}
+                  disabled={isLoadingMoreEpisodes}
+                  className="clean-button px-6 py-3 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isLoadingMoreEpisodes ? t('pagination.loading') : t('pagination.loadMore')}
+                </button>
+              </div>
+            )}
+            
+            {!hasMoreEpisodes && searchState.episodes.length >= EPISODES_PER_PAGE && (
+              <div className="text-center mt-8">
+                <p className="text-sm text-muted-foreground">{t('pagination.noMore')}</p>
+              </div>
+            )}
+          </>
         )}
 
         {/* Empty State */}

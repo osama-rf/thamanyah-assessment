@@ -10,9 +10,10 @@ interface HeaderProps {
   isLoadingPodcasts: boolean;
   isLoadingEpisodes: boolean;
   searchQuery: string;
+  onClear?: () => void;
 }
 
-export function Header({ onSearch, isLoadingPodcasts, isLoadingEpisodes, searchQuery }: HeaderProps) {
+export function Header({ onSearch, isLoadingPodcasts, isLoadingEpisodes, searchQuery, onClear }: HeaderProps) {
   const { t } = useLanguage();
   const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -48,9 +49,10 @@ export function Header({ onSearch, isLoadingPodcasts, isLoadingEpisodes, searchQ
                   onSearch={onSearch}
                   isLoading={isLoadingPodcasts || isLoadingEpisodes}
                   placeholder={t('search.placeholder')}
-                  enableInstantSearch={true}
+                  enableInstantSearch={false}
                   initialValue={searchQuery}
                   isCompact={true}
+                  onClear={onClear}
                 />
               </div>
               
