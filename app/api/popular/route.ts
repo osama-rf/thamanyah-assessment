@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
     // List of popular Arabic podcast search terms to get diverse results
     const arabicPodcastTerms = [
       'ثمانية',
-      'بودكاست فنجان',
+      'ثمانية',
       'تبن',
       'بودكاست عربي',
       'أبجورة',

@@ -221,11 +221,11 @@ export function HomePageContent() {
     loadPopularPodcasts();
   }, [loadPopularPodcasts]);
 
-  // Search for "بودكاست فنجان" by default when component mounts
+  // Search for "ثمانية" by default when component mounts
   useEffect(() => {
     // Only do default search if no URL parameters and no search has been performed
     if (!searchParams.get('q') && !searchState.hasSearched) {
-      handleSearch('بودكاست فنجان');
+      handleSearch('ثمانية');
     }
   }, [handleSearch, searchParams, searchState.hasSearched]);
 
