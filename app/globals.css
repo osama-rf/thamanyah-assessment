@@ -1,0 +1,235 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 52 33% 95%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Midnight blue theme */
+    --background: 228 39% 7%;
+    /* #0f1419 - deep midnight blue */
+    --foreground: 213 31% 91%;
+    /* #e8eaed - light blue-white */
+    --card: 228 25% 9%;
+    /* #151b23 - darker midnight blue */
+    --card-foreground: 213 31% 91%;
+    --popover: 228 25% 9%;
+    --popover-foreground: 213 31% 91%;
+    --primary: 217 91% 60%;
+    /* #3b82f6 - bright blue accent */
+    --primary-foreground: 228 39% 7%;
+    --secondary: 228 15% 15%;
+    /* #1f2937 - muted midnight */
+    --secondary-foreground: 213 31% 91%;
+    --muted: 228 15% 15%;
+    --muted-foreground: 213 13% 65%;
+    /* #9ca3af - muted blue-gray */
+    --accent: 217 91% 60%;
+    --accent-foreground: 228 39% 7%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 213 31% 91%;
+    --border: 228 15% 18%;
+    /* #374151 - subtle border */
+    --input: 228 15% 18%;
+    --ring: 217 91% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  html {
+    transition: background-color 0.3s ease;
+  }
+
+  /* RTL Support */
+  [dir="rtl"] {
+    text-align: right;
+  }
+
+  [dir="rtl"] .space-x-2> :not([hidden])~ :not([hidden]) {
+    --tw-space-x-reverse: 1;
+  }
+
+  [dir="rtl"] .space-x-4> :not([hidden])~ :not([hidden]) {
+    --tw-space-x-reverse: 1;
+  }
+
+  [dir="rtl"] .ml-2 {
+    margin-left: 0;
+    margin-right: 0.5rem;
+  }
+
+  [dir="rtl"] .mr-2 {
+    margin-right: 0;
+    margin-left: 0.5rem;
+  }
+
+  [dir="rtl"] .pl-4 {
+    padding-left: 0;
+    padding-right: 1rem;
+  }
+
+  [dir="rtl"] .pl-12 {
+    padding-left: 0;
+    padding-right: 3rem;
+  }
+
+  [dir="rtl"] .pr-24 {
+    padding-right: 0;
+    padding-left: 6rem;
+  }
+
+  [dir="rtl"] .pr-4 {
+    padding-right: 0;
+    padding-left: 1rem;
+  }
+
+  /* RTL Input styling */
+  [dir="rtl"] input {
+    text-align: right;
+  }
+}
+
+.clean-card {
+  @apply bg-card text-card-foreground rounded-lg shadow-sm border border-border hover:shadow-md transition-all duration-200;
+}
+
+.dark .clean-card {
+  @apply shadow-lg shadow-black/20 hover:shadow-xl hover:shadow-black/30;
+}
+
+.clean-button {
+  @apply inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white hover:bg-gray-50;
+}
+
+.dark .clean-button {
+  @apply bg-transparent hover:bg-muted/50;
+}
+
+/* Light theme button overrides */
+:root button:not(.dark button) {
+  --muted: 0 0% 100%;
+}
+
+/* Override muted background for buttons in light theme */
+button[class*="bg-muted"]:not(.dark button[class*="bg-muted"]) {
+  background-color: white !important;
+}
+
+button[class*="bg-muted"]:hover:not(.dark button[class*="bg-muted"]:hover) {
+  background-color: rgb(249 250 251) !important; /* gray-50 */
+}
+
+.clean-input {
+  @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-colors duration-200;
+}
+
+.dark .clean-input {
+  @apply shadow-inner;
+}
+
+/* Loading skeleton animations */
+.skeleton {
+  @apply animate-pulse bg-muted;
+}
+
+/* Dark mode skeleton adjustments */
+.dark .skeleton {
+  @apply bg-muted/50;
+}
+
+/* Smooth transitions for layout changes */
+.layout-transition {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+.heading-xl {
+  @apply text-3xl font-bold tracking-tight text-foreground;
+}
+
+.heading-lg {
+  @apply text-2xl font-semibold tracking-tight text-foreground;
+}
+
+.heading-md {
+  @apply text-xl font-semibold text-foreground;
+}
+
+.heading-sm {
+  @apply text-lg font-medium text-foreground;
+}
+
+.body-lg {
+  @apply text-base text-foreground;
+}
+
+.body-md {
+  @apply text-sm text-foreground;
+}
+
+.body-sm {
+  @apply text-xs text-muted-foreground;
+}
+
+/* Hide scrollbar for horizontal scrolling */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+/* Line clamp utilities for text truncation */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
