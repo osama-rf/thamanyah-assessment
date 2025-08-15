@@ -32,7 +32,7 @@ coverage/
 .eslintcache
 
 # dotenv environment variables file
-.env
+# .env // uncomment if you want to ignore the main .env file
 .env.local
 .env.development.local
 .env.test.local
