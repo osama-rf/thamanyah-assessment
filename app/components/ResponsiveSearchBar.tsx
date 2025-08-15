@@ -122,7 +122,7 @@ export function ResponsiveSearchBar({
           className={cn(
             "clean-input",
             isCompact ? "h-10 text-sm sm:h-12 sm:text-base" : "h-14 text-lg",
-            isRTL ? "pr-3 pl-12 sm:pr-6 sm:pl-16 text-right" : "pl-3 pr-12 sm:pl-6 sm:pr-16 text-left",
+            isRTL ? "pr-0 pl-0 sm:pr-6 sm:pl-16 text-right" : "pl-3 pr-12 sm:pl-6 sm:pr-16 text-left",
             "focus:ring-2 focus:ring-primary focus:border-transparent",
             "disabled:opacity-50 disabled:cursor-not-allowed",
             "shadow-sm w-full min-w-0"
