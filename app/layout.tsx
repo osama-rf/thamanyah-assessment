@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   keywords: 'iTunes, podcasts, search, music, entertainment',
   authors: [{ name: 'Thamanyah Assignment - تكليف ثمانية' }],
   icons: {
-    icon: '/Thmanyah-Icon-tab.svg',
+    icon: '/Thmanyah-Icon-tab-white.svg',
   },
 };
 
