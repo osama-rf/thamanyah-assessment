@@ -65,7 +65,7 @@ const translations = {
     'layout.compact': 'مضغوط',
 
     // Footer
-    'footer.builtBy': 'صُنع بكل حب من أسامة الرفاعي بطموح يعانق السماء للابداع في',
+    'footer.builtBy': 'صُنع بكل حب من أسامة الرفاعي',
     'footer.thamanyah': 'ثمانية',
 
     // Language
