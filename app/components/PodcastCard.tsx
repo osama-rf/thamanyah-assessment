@@ -82,12 +82,12 @@ export function PodcastCard({ podcast, viewMode, className }: PodcastCardProps) 
             <div className="mt-auto">
               <div className="flex items-center justify-between text-xs text-muted-foreground">
                 {primaryGenreName && (
-                  <span className="px-2 py-1 bg-muted rounded-full text-xs">
+                  <span className="px-2 py-1 bg-muted rounded-full text-xs whitespace-nowrap">
                     {t(`genre.${primaryGenreName}`) !== `genre.${primaryGenreName}` ? t(`genre.${primaryGenreName}`) : primaryGenreName}
                   </span>
                 )}
                 {trackCount && (
-                  <span className="text-xs">{trackCount} {trackCount === 1 ? t('results.episode') : t('results.episodes')}</span>
+                  <span className="text-xs whitespace-nowrap">{trackCount} {trackCount === 1 ? t('results.episode') : t('results.episodes')}</span>
                 )}
               </div>
             </div>
@@ -138,15 +138,15 @@ export function PodcastCard({ podcast, viewMode, className }: PodcastCardProps) 
 
             <div className="flex items-center space-x-4 text-xs text-muted-foreground">
               {primaryGenreName && (
-                <span className="px-2 py-1 bg-muted rounded-full">
+                <span className="px-2 py-1 bg-muted rounded-full whitespace-nowrap">
                   {t(`genre.${primaryGenreName}`) !== `genre.${primaryGenreName}` ? t(`genre.${primaryGenreName}`) : primaryGenreName}
                 </span>
               )}
               {trackCount && (
-                <span>{trackCount} {trackCount === 1 ? t('results.episode') : t('results.episodes')}</span>
+                <span className="whitespace-nowrap">{trackCount} {trackCount === 1 ? t('results.episode') : t('results.episodes')}</span>
               )}
               {releaseDate && (
-                <span>{formatDate(releaseDate)}</span>
+                <span className="whitespace-nowrap">{formatDate(releaseDate)}</span>
               )}
             </div>
           </div>
@@ -214,12 +214,12 @@ export function PodcastCard({ podcast, viewMode, className }: PodcastCardProps) 
           <div className="mt-auto">
             <div className="flex items-center justify-between text-xs text-muted-foreground">
               {primaryGenreName && (
-                <span className="px-2 py-1 bg-muted rounded-full">
+                <span className="px-2 py-1 bg-muted rounded-full whitespace-nowrap">
                   {t(`genre.${primaryGenreName}`) !== `genre.${primaryGenreName}` ? t(`genre.${primaryGenreName}`) : primaryGenreName}
                 </span>
               )}
               {trackCount && (
-                <span className="ml-2">{trackCount} {trackCount === 1 ? t('results.episode') : t('results.episodes')}</span>
+                <span className="ml-2 whitespace-nowrap">{trackCount} {trackCount === 1 ? t('results.episode') : t('results.episodes')}</span>
               )}
             </div>
           </div>
