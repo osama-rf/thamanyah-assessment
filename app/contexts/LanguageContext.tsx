@@ -30,7 +30,7 @@ const translations = {
     'results.topPodcasts': 'بودكاست عن "{query}"',
     'results.topEpisodes': 'حلقات عن "{query}"',
     'results.noResults': 'ما لقينا نتائج عن "{query}"',
-    'results.showing': 'نعرض لك بودكاست من iTunes',
+    'results.showing': '.',
     'results.episodes': 'حلقات',
     'results.episode': 'حلقة',
 
