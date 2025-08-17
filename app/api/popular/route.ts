@@ -1,32 +1,14 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { iTunesAPI } from '@/app/lib/itunes-api';
-import { ApiResponse, PodcastCard } from '@/app/types/podcast';
+import { NextRequest, NextResponse } from "next/server";
+import { iTunesAPI } from "@/app/lib/itunes-api";
+import { ApiResponse, PodcastCard } from "@/app/types/podcast";
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const limit = parseInt(searchParams.get('limit') || '20', 10);
+    const limit = parseInt(searchParams.get("limit") || "20", 10);
 
     // List of popular Arabic podcast search terms to get diverse results
-    const arabicPodcastTerms = [
-      'ثمانية',
-      'ثمانية',
-      'تبن',
-      'بودكاست عربي',
-      'أبجورة',
-      'دكان',
-      'ملفات',
-      'نصائح',
-      'صوت',
-      'حكايا',
-      'قصص',
-      'أدب',
-      'تاريخ',
-      'تقنية',
-      'علوم',
-      'ثقافة',
-      'مقابلة'
-    ];
+    const arabicPodcastTerms = ["ثمانية", "فنجان", "سوالف بزنس", "سقراط"];
 
     // Randomly select a few terms to get varied results
     const selectedTerms = arabicPodcastTerms
@@ -41,8 +23,8 @@ export async function GET(request: NextRequest) {
       try {
         const searchResults = await iTunesAPI.search({
           term,
-          media: 'podcast',
-          limit: Math.ceil(limit / selectedTerms.length)
+          media: "podcast",
+          limit: Math.ceil(limit / selectedTerms.length),
         });
 
         // Transform and deduplicate results
@@ -54,13 +36,20 @@ export async function GET(request: NextRequest) {
               id: `podcast-${result.trackId}`,
               trackId: result.trackId,
               trackName: result.trackName,
-              artistName: result.artistName || '',
+              artistName: result.artistName || "",
               collectionName: result.collectionName,
               description: result.description,
-              artworkUrl: result.artworkUrl600 || result.artworkUrl100 || result.artworkUrl60 || result.artworkUrl30 || '/placeholder-podcast.png',
+              artworkUrl:
+                result.artworkUrl600 ||
+                result.artworkUrl100 ||
+                result.artworkUrl60 ||
+                result.artworkUrl30 ||
+                "/placeholder-podcast.png",
               trackViewUrl: result.trackViewUrl,
               primaryGenreName: result.primaryGenreName,
-              releaseDate: result.releaseDate ? new Date(result.releaseDate) : undefined,
+              releaseDate: result.releaseDate
+                ? new Date(result.releaseDate)
+                : undefined,
               trackCount: result.trackCount,
             });
           }
@@ -82,9 +71,8 @@ export async function GET(request: NextRequest) {
       data: shuffledResults,
       message: `Found ${shuffledResults.length} popular Arabic podcasts`,
     });
-
   } catch (error) {
-    console.error('Popular podcasts API error:', error);
+    console.error("Popular podcasts API error:", error);
 
     if (error instanceof Error) {
       return NextResponse.json<ApiResponse<null>>(
@@ -99,7 +87,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json<ApiResponse<null>>(
       {
         success: false,
-        error: 'An unexpected error occurred',
+        error: "An unexpected error occurred",
       },
       { status: 500 }
     );
