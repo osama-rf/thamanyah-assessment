@@ -221,13 +221,6 @@ export function HomePageContent() {
     loadPopularPodcasts();
   }, [loadPopularPodcasts]);
 
-  // Search for "ثمانية" by default when component mounts
-  useEffect(() => {
-    // Only do default search if no URL parameters and no search has been performed
-    if (!searchParams.get('q') && !searchState.hasSearched) {
-      handleSearch('ثمانية');
-    }
-  }, [handleSearch, searchParams, searchState.hasSearched]);
 
   return (
     <main className="flex-1">

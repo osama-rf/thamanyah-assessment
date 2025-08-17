@@ -22,13 +22,13 @@ export function ResponsiveSearchBar({
   placeholder,
   className,
   enableInstantSearch = true,
-  initialValue = '',
+  initialValue = undefined,
   isCompact = false,
   onSearchStateChange,
   onClear
 }: ResponsiveSearchBarProps) {
   const { t, isRTL } = useLanguage();
-  const [query, setQuery] = useState(initialValue);
+  const [query, setQuery] = useState(initialValue || '');
   const [isSearchOpen, setIsSearchOpen] = useState(true);
   const debouncedSearchRef = useRef<ReturnType<typeof debounce> | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);

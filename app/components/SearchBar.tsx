@@ -19,10 +19,10 @@ export function SearchBar({
   placeholder,
   className,
   enableInstantSearch = true,
-  initialValue = ''
+  initialValue = undefined
 }: SearchBarProps) {
   const { t, isRTL } = useLanguage();
-  const [query, setQuery] = useState(initialValue);
+  const [query, setQuery] = useState(initialValue || '');
   const debouncedSearchRef = useRef<ReturnType<typeof debounce> | null>(null);
   
   const defaultPlaceholder = placeholder || t('search.placeholder');

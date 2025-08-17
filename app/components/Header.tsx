@@ -50,7 +50,6 @@ export function Header({ onSearch, isLoadingPodcasts, isLoadingEpisodes, searchQ
                   isLoading={isLoadingPodcasts || isLoadingEpisodes}
                   placeholder={t('search.placeholder')}
                   enableInstantSearch={false}
-                  initialValue={searchQuery}
                   isCompact={true}
                   onClear={onClear}
                 />
