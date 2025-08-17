@@ -39,7 +39,7 @@ export function ResponsiveSearchBar({
   // Only update query when initialValue changes externally (not from user typing)
   useEffect(() => {
     if (initialValue !== prevInitialValue.current) {
-      setQuery(initialValue);
+      setQuery(initialValue || '');
       prevInitialValue.current = initialValue;
     }
   }, [initialValue]);

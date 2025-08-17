@@ -30,7 +30,7 @@ export function SearchBar({
   // Update query when initialValue changes
   useEffect(() => {
     if (initialValue !== query) {
-      setQuery(initialValue);
+      setQuery(initialValue || '');
     }
   }, [initialValue, query]);
 
