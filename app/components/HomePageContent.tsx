@@ -40,6 +40,7 @@ export function HomePageContent() {
   const [episodeViewMode, setEpisodeViewMode] = useState<ViewMode>('compact');
   const currentRequestRef = useRef<AbortController | null>(null);
   const lastQueryRef = useRef<string>('');
+  const footerRef = useRef<HTMLDivElement | null>(null);
 
   const handleSearch = useCallback(async (query: string, skipUrlUpdate = false) => {
     // Prevent duplicate searches
@@ -220,6 +221,29 @@ export function HomePageContent() {
   useEffect(() => {
     loadPopularPodcasts();
   }, [loadPopularPodcasts]);
+
+  // Auto-load more episodes when scrolling near footer
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!footerRef.current || !hasMoreEpisodes || isLoadingMoreEpisodes || !searchState.query.trim()) {
+        return;
+      }
+
+      const footerRect = footerRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      
+      // Trigger load more when footer is within 200px of viewport
+      if (footerRect.top <= windowHeight + 200) {
+        loadMoreEpisodes();
+      }
+    };
+
+    // Only attach scroll listener when we have episodes and can load more
+    if (searchState.episodes.length > 0 && hasMoreEpisodes && searchState.query.trim()) {
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      return () => window.removeEventListener('scroll', handleScroll);
+    }
+  }, [searchState.episodes.length, hasMoreEpisodes, isLoadingMoreEpisodes, searchState.query, loadMoreEpisodes]);
 
 
   return (
@@ -433,6 +457,9 @@ export function HomePageContent() {
           </div>
         )}
       </div>
+      
+      {/* Footer detection div */}
+      <div ref={footerRef} className="h-1" />
     </main>
   );
 }
