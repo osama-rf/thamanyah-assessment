@@ -31,7 +31,7 @@ export function HomePageContent() {
   const [episodePage, setEpisodePage] = useState(1);
   const [isLoadingMoreEpisodes, setIsLoadingMoreEpisodes] = useState(false);
   const [hasMoreEpisodes, setHasMoreEpisodes] = useState(true);
-  const EPISODES_PER_PAGE = 8;
+  const EPISODES_PER_PAGE = 10;
 
   const [popularPodcasts, setPopularPodcasts] = useState<PodcastCard[]>([]);
   const [isLoadingPopular, setIsLoadingPopular] = useState(false);
@@ -87,7 +87,7 @@ export function HomePageContent() {
       // Search for both podcasts and episodes in parallel
       const [podcastResponse, episodeResponse] = await Promise.all([
         fetch(
-          `/api/search?term=${encodeURIComponent(query.trim())}&media=podcast&limit=20`,
+          `/api/search?term=${encodeURIComponent(query.trim())}&media=podcast&limit=9`,
           { signal: currentRequestRef.current.signal }
         ),
         fetch(
@@ -204,7 +204,7 @@ export function HomePageContent() {
 
     setIsLoadingPopular(true);
     try {
-      const response = await fetch('/api/popular?limit=20');
+      const response = await fetch('/api/popular?limit=12');
       const data = await response.json();
 
       if (data.success && data.data) {
@@ -297,7 +297,7 @@ export function HomePageContent() {
                 <div className="h-10 skeleton rounded w-20"></div>
               </div>
             )}
-            <PodcastSkeleton viewMode={podcastViewMode} count={12} />
+            <PodcastSkeleton viewMode={podcastViewMode} count={9} />
           </div>
         )}
 
@@ -348,7 +348,7 @@ export function HomePageContent() {
               </div>
               <div className="h-10 skeleton rounded w-20"></div>
             </div>
-            <PodcastSkeleton viewMode={episodeViewMode} count={8} />
+            <PodcastSkeleton viewMode={episodeViewMode} count={10} />
           </div>
         )}
 
