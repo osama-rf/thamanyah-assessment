@@ -220,7 +220,13 @@ export function HomePageContent() {
   // Load popular podcasts on mount
   useEffect(() => {
     loadPopularPodcasts();
-  }, [loadPopularPodcasts]);
+    
+    // Auto-search for ثمانية episodes on initial page load if no search params
+    const podcastParam = searchParams.get('podcast');
+    if (!podcastParam && !searchState.hasSearched) {
+      handleSearch('ثمانية', false);
+    }
+  }, [loadPopularPodcasts, searchParams, searchState.hasSearched, handleSearch]);
 
   // Auto-load more episodes when scrolling near footer
   useEffect(() => {

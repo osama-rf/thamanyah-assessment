@@ -17,7 +17,7 @@ export function EpisodeGrid({ episodes, viewMode }: EpisodeGridProps) {
       case 'horizontal':
         return 'flex overflow-x-auto gap-6 pb-4 scrollbar-hide';
       case 'compact':
-        return 'grid grid-cols-1 gap-2';
+        return 'grid grid-cols-1 md:grid-cols-3 gap-2';
       case 'list':
         return 'grid grid-cols-1 gap-4';
       case 'grid':
